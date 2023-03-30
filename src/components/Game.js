@@ -1,38 +1,56 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { calculateWinner } from "../helpers";
 import Board from "./Board";
-import styled from "styled-components";
 
-const StyledGame = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: Arial, Helvetica, sans-serif;
 `;
 
-const GameHeader = styled.h1`
-  margin-top: 20px;
-  margin-bottom: 40px;
+const GameTitle = styled.h1`
+  color: #8447ff;
+  font-size: 3rem;
+  font-weight: 900;
+  font-stretch: expanded;
+  font-family: "Lucida" Grande, sans-serif;
+  margin-bottom: 2rem;
 `;
 
-const GameFooter = styled.div`
-  margin-top: 40px;
+// const GameSubTitle = styled.h2`
+//   font-size: 2rem;
+//   font-weight: 900;
+//   font-stretch: expanded;
+//   font-family: "Lucida" Grande, sans-serif;
+//   margin-bottom: 1rem;
+// `;
+
+const WinnerTitle = styled.h2`
+  color: #8447ff;
+  font-size: 1.5rem;
 `;
 
-const StyledButton = styled.button`
-  background-color: #f5f5f5;
-  border: 2px solid #333;
-  border-radius: 10px;
+// const MovesList = styled.ol`
+//   list-style-type: none;
+//   padding: 0;
+//   margin-top: 1.5rem;
+// `;
+
+const GameButton = styled.button`
+  background-color: #dcdcdc;
+  color: #292929;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  margin: 5px;
-  padding: 10px 20px;
-  transition: all 0.3s ease-in-out;
+  width: 150px;
 
   &:hover {
-    background-color: #333;
-    color: #f5f5f5;
+    background-color: #c0c0c0;
+    color: #fff;
   }
 `;
 
@@ -46,43 +64,45 @@ const Game = () => {
     const timeInHistory = history.slice(0, stepNumber + 1);
     const current = timeInHistory[stepNumber];
     const squares = [...current];
-    // if user clicks on square that is taken or if game is won, return
     if (winner || squares[i]) return;
-    // add X or O in the clicked square
     squares[i] = xIsNext ? "X" : "O";
     setHistory([...timeInHistory, squares]);
     setStepNumber(timeInHistory.length);
-    setXisNext(!xIsNext); // return opposite value
+    setXisNext(!xIsNext);
   };
 
-  const jumpTo = (step) => {
-    setStepNumber(step);
-    setXisNext(step % 2 === 0);
+  // const jumpTo = (step) => {
+  //   setStepNumber(step);
+  //   setXisNext(step % 2 === 0);
+  // };
+
+  const resetGame = () => {
+    setHistory([Array(9).fill(null)]);
+    setStepNumber(0);
+    setXisNext(true);
   };
 
-  const renderMoves = () =>
-    history.map((_step, move) => {
-      const destination = move ? `Move:${move}` : "START";
-      return (
-        <StyledButton key={move} onClick={() => jumpTo(move)}>
-          {destination}
-        </StyledButton>
-      );
-    });
+  // const renderMoves = () =>
+  //   history.map((_step, move) => {
+  //     const destination = move ? `Move:${move}` : "START";
+  //     return (
+  //       <li key={move}>
+  //         <GameButton onClick={() => jumpTo(move)}>{destination}</GameButton>
+  //       </li>
+  //     );
+  //   });
 
   return (
-    <StyledGame>
-      <GameHeader>Tic Tac Toe</GameHeader>
+    <Container>
+      <GameTitle>Tic Tac Toe</GameTitle>
+      {/* <GameSubTitle>game</GameSubTitle> */}
       <Board squares={history[stepNumber]} onClick={handleClick} />
-      <GameFooter>
-        <p>
-          {winner
-            ? "Winner: " + winner
-            : "Next Player: " + (xIsNext ? "X" : "O")}
-        </p>
-        {renderMoves()}
-      </GameFooter>
-    </StyledGame>
+      <WinnerTitle>
+        {winner ? `Winner: ${winner}` : `Next Player: ${xIsNext ? "X" : "O"}`}
+      </WinnerTitle>
+      {/* <MovesList>{renderMoves()}</MovesList> */}
+      <GameButton onClick={resetGame}>Reset Game</GameButton>
+    </Container>
   );
 };
 
