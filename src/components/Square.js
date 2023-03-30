@@ -1,18 +1,17 @@
 import React from "react";
+import styled from "styled-components";
 
-const style = {
-    background: 'lightgrey',
-    border: '2px solid black',
-    fontSize: '30px',
-    fontWeight: '800',
-    cursor: 'pointer',
-    outline: 'none'
-};
+const StyledButton = styled.button`
+  background: lightgrey;
+  border: 2px solid black;
+  font-size: 30px;
+  font-weight: 800;
+  cursor: pointer;
+  outline: none;
+`;
 
-const Square = ({ value, onClick}) => (
-<button style={style} onClick={onClick}>
-    {value}
-</button>
+const Square = ({ value, onClick }) => (
+  <StyledButton onClick={onClick}>{value}</StyledButton>
 );
 
 export default Square;

@@ -1,22 +1,24 @@
 import React from "react";
+import styled from "styled-components";
 import Square from "./Square";
 
-const style = {
-  border: "3px solid black",
-  borderRadius: "10px",
-  width: "250px",
-  height: "250px",
-  margin: "0 auto",
-  display: "grid",
-  gridTemplate: "repeat(3, 1fr) / repeat(3, 1fr)",
-};
+const StyledBoard = styled.div`
+  border: 3px solid black;
+  border-radius: 10px;
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+`;
 
 const Board = ({ squares, onClick }) => (
-  <div style={style}>
-    {squares.map((square, i) => {
-      return <Square key={i} value={square} onClick={() => onClick(i)} />;
-    })}
-  </div>
+  <StyledBoard>
+    {squares.map((square, i) => (
+      <Square key={i} value={square} onClick={() => onClick(i)} />
+    ))}
+  </StyledBoard>
 );
 
 export default Board;
+
